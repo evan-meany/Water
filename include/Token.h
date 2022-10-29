@@ -6,17 +6,18 @@ struct Token
    {
 		WHITESPACE,
       NEWLINE,
-      NUMBER,
-      LETTER,
-		EXPR_END,
-		KEYWORD,
-      LPARAN,
-      RPARAN,
-      QUOTE,
+		TERMINATOR,
+      NUMERIC,
       STRING,
+		KEYWORD,
+      IDENTIFIER,
+      OPERATOR,
+      PUNCTUATION,
+      SCOPE,
 		UNKNOWN
    };
 
+   int id;
    Type type;
    std::string value;
    int numCharacters = 0;
