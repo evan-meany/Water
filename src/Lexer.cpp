@@ -1,13 +1,36 @@
 #include "../include/Lexer.h"
 
 #include <iostream>
+#include <windows.h>
 #include <fstream>
 #include <sstream>
 
-static void readFile(const std::string& filePath, std::string& fileContents)
+static void printFilesInDirectory(const std::string& directoryPath) 
+{
+   WIN32_FIND_DATAA findFileData;
+   HANDLE hFind = FindFirstFileA((directoryPath + "\\*").c_str(), &findFileData);
+
+   if (hFind != INVALID_HANDLE_VALUE) 
+   {
+      do 
+      {
+         if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) 
+         {
+            std::cout << findFileData.cFileName << std::endl;
+         }
+      } while (FindNextFileA(hFind, &findFileData) != 0);
+
+      FindClose(hFind);
+   }
+}
+
+static bool readFile(const std::string& filePath, std::string& fileContents)
 {
    std::fstream file;
-
+   char buffer[MAX_PATH];
+   GetCurrentDirectoryA(MAX_PATH, buffer);
+   printFilesInDirectory(".");
+   std::cout << "Current Working Directory: " << buffer << std::endl;
    file.open(filePath);
 
    if (file.is_open())
@@ -19,8 +42,21 @@ static void readFile(const std::string& filePath, std::string& fileContents)
    }
    else
    {
-      throw "could not open: " + filePath;
+      // Check if the fail bit is set (indicating a general I/O error).
+      std::cerr << "Failed to open the file: " << filePath << std::endl;
+      std::cerr << "Error code: " << errno << std::endl;
+
+      // Get a descriptive error message based on the errno (on Windows).
+      char errorMessage[256];
+      if (strerror_s(errorMessage, sizeof(errorMessage), errno) == 0)
+      {
+         std::cerr << "Error message: " << errorMessage << std::endl;
+      }
+
+      return false;
    }
+
+   return true;
 }
 
 static std::string getTokenTypeName(const int& type)
@@ -112,7 +148,7 @@ Lexer::~Lexer()
 
 void Lexer::lexFile()
 {
-   readFile(m_filePath, m_fileContents);
+   if (!readFile(m_filePath, m_fileContents)) { return; }
    
    m_fileIndex = 0;
    m_fileSize = m_fileContents.size();
