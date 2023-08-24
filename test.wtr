@@ -1,7 +1,1 @@
-int a = 5;
-string b = "Hello";
-
-int getNumPlusNum(int x, int y)
-{
-   return x + y;
-}
+return 135;
