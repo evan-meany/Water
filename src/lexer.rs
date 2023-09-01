@@ -1,4 +1,5 @@
 use crate::token::Keyword;
+use crate::token::Operator;
 use crate::token::Type;
 use crate::token::Literal;
 use crate::token::Token;
@@ -18,6 +19,7 @@ impl Lexer {
 
    pub fn get_tokens(&mut self) -> Result<Vec<Token>, String> {
       let mut tokens: Vec<Token> = Vec::new();
+
       let words: Vec<&str> = self.file_contents.split_whitespace().collect();
       for word in words {
          let mut sub_word = String::new();
@@ -28,6 +30,7 @@ impl Lexer {
                      Ok(None) => {}
                      Err(err) => return Err(err),
                   }
+                  
                   match self.create_char_token(c) {
                      Ok(Some(token)) => tokens.push(token),
                      Ok(None) => {}
@@ -56,6 +59,18 @@ impl Lexer {
       else if c == '=' {
          return Ok(Some(Token::Equals));
       }
+      else if c == '+' {
+         return Ok(Some(Token::Operator(Operator::Plus)));
+      }
+      else if c == '-' {
+         return Ok(Some(Token::Operator(Operator::Minus)));
+      }
+      else if c == '*' {
+         return Ok(Some(Token::Operator(Operator::Multiply)));
+      }
+      else if c == '/' {
+         return Ok(Some(Token::Operator(Operator::Divide)));
+      }
       else {
          return Ok(Some(Token::Identifier(String::from(c))));
       }
@@ -81,7 +96,7 @@ impl Lexer {
           return self.create_char_token(word.chars().next().unwrap());
       }
       else if word.len() > 1 && word.chars().next().unwrap() == '"' && word.chars().last().unwrap() == '"' {
-         return Ok(Some(Token::Literal(Literal::String(String::from("Word")))));
+         return Ok(Some(Token::Literal(Literal::String(word[1..word.len() - 1].to_string()))));
       }
       else {
           return Ok(Some(Token::Identifier(String::from(word))));

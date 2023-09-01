@@ -1,6 +1,4 @@
 #[allow(dead_code, unused_variables, unreachable_patterns)]
-
-#[allow(dead_code, unused_variables, unreachable_patterns)]
 mod token;
 #[allow(dead_code, unused_variables, unreachable_patterns)]
 mod lexer;
@@ -11,7 +9,9 @@ use std::fs::File;
 use std::io::Read;
 use lexer::Lexer;
 use parser::Parser;
+#[allow(dead_code, unused_imports, unused_variables, unreachable_patterns)]
 use token::print_tokens;
+use parser::print_ast;
 
 fn load_file(file_path: &str) -> Result<String, String> {
     let mut file = File::open(file_path).map_err(|err| {
@@ -41,7 +41,7 @@ fn main() {
     let tokens = match lexer.get_tokens() {
         Ok(tokens_result) => {
             println!("Successful lex");
-            print_tokens(&tokens_result);
+            // print_tokens(&tokens_result);
             tokens_result
         }
         Err(err) => {
@@ -52,10 +52,10 @@ fn main() {
 
 
     let mut parser = Parser::new(tokens);
-    let program = match parser.parse() {
+    match parser.parse() {
         Ok(program_result) => {
             println!("Successful parse");
-            program_result
+            print_ast(&program_result)
         }
         Err(err) => {
             eprintln!("ERROR: {err}");
