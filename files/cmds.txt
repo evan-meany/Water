@@ -1,0 +1,29 @@
+
+evan.meany@LUSGLD-GY31Q73 MSYS /e/Water/files
+$ ../vendor/NASM/nasm -g -f win64 hello.asm -l hello.lst -o hello.obj
+
+evan.meany@LUSGLD-GY31Q73 MSYS /e/Water/files
+$ gcc -g -m64 hello.obj -o hello.exe
+
+evan.meany@LUSGLD-GY31Q73 MSYS /e/Water/files
+$ hello
+-bash: hello: command not found
+
+evan.meany@LUSGLD-GY31Q73 MSYS /e/Water/files
+$ hello.exe
+-bash: hello.exe: command not found
+
+evan.meany@LUSGLD-GY31Q73 MSYS /e/Water/files
+$ ./hello.exe
+
+evan.meany@LUSGLD-GY31Q73 MSYS /e/Water/files
+$ echo $?
+20
+
+evan.meany@LUSGLD-GY31Q73 MSYS /e/Water/files
+$
+
+
+
+
+

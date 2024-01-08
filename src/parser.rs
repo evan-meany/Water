@@ -331,10 +331,6 @@ impl Parser {
       }
    }
 
-   fn peek_token(&self) -> Option<&Token> {
-      self.tokens.front()
-   }
-
    fn dequeue_token(&mut self) -> Option<Token> {
       self.tokens.pop_front()
    }
@@ -342,7 +338,11 @@ impl Parser {
 
 pub fn print_ast(program: &NodeProgram) {
    println!("");
+   println!("_________________________________________________");
    println!("_______________ABSTRACT SYNTAX TREE______________");
    println!("");
-   program.print(0)
+   program.print(0);
+   println!("_________________________________________________");
+   println!("_________________________________________________");
+
 }

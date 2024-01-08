@@ -15,7 +15,7 @@ pub enum Literal {
 
 #[derive(Copy, Clone)]
 pub enum Operator {
-   Plus, Minus, Multiply, Divide
+   Plus, Minus, Multiply, Divide, Exponential
 }
 
 fn operator_precedence(operator: &Operator) -> usize {
@@ -24,6 +24,7 @@ fn operator_precedence(operator: &Operator) -> usize {
       Operator::Minus => return 0,
       Operator::Multiply => return 1,
       Operator::Divide => return 1,
+      Operator::Exponential => return 2,
    }
 }
 
@@ -86,6 +87,7 @@ impl Printable for Operator {
          Operator::Minus => String::from("Minus"),
          Operator::Multiply => String::from("Multiply"),
          Operator::Divide => String::from("Divide"),
+         Operator::Exponential => String::from("Exponential"),
          _ => String::from("unknown")
       };
       println!("Token: Operator [{operator_str}]");

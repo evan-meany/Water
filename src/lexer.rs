@@ -71,6 +71,9 @@ impl Lexer {
       else if c == '/' {
          return Ok(Some(Token::Operator(Operator::Divide)));
       }
+      else if c == '^' {
+         return Ok(Some(Token::Operator(Operator::Exponential)));
+      }
       else {
          return Ok(Some(Token::Identifier(String::from(c))));
       }
