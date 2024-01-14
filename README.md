@@ -1,1 +1,1 @@
-To run this please use a Linux enviornment in order to execute NASM assembly code. Obviosly this means that NASM must be included in the system path.
+To run this please use a Linux enviornment in order to execute NASM assembly code. Obviously this means that NASM must be included in the system path. To run navigate to root directory and use the 'cargo run' command.
