@@ -35,8 +35,8 @@ fn assemble_file(file_path: &str) {
 }
 
 fn main() {
-    let input_path = "files\\test.wtr";
-    let output_path = "files\\test.asm";
+    let input_path = "files/test.wtr";
+    let output_path = "files/test.asm";
     
     let file_contents = match load_file(input_path) {
         Ok(contents) => contents,
@@ -72,7 +72,7 @@ fn main() {
         }
     };
 
-    let mut generator = Generator::new(program);
+    let generator = Generator::new(program);
     match generator.generate(output_path) {
         Ok(_) => println!("Successful generate"),
         Err(err) => {
@@ -81,5 +81,5 @@ fn main() {
         }
     }
 
-
+    generator.run(output_path);
 }

@@ -1,19 +1,14 @@
-global main                 ; declare main() method
-extern printf               ; link to external library
+          global    _start
 
-section .data
-message db 'Hello world', 0xA, 0 ; text message
-                                 ; 0xA (10) is hex for (NL), carriage return
-                                 ; 0 terminates the line
+section   .text
+_start:   mov       rax, 1                  ; system call for write
+          mov       rdi, 1                  ; file handle 1 is stdout
+          mov       rsi, message            ; address of string to output
+          mov       rdx, 13                 ; number of bytes
+          syscall                           ; invoke operating system to do the write
+          mov       rax, 60                 ; system call for exit
+          xor       rdi, rdi                ; exit code 0
+          syscall                           ; invoke operating system to exit
 
-section .text
-main:                          ; the entry point! int main()
-    push rdi                   ; save rdi register (callee-save)
-    sub rsp, 32                ; allocate stack space for printf arguments
-
-    lea rdi, [rel message]     ; load the address of the message into rdi
-    call printf                ; call printf with the message address
-
-    add rsp, 32                ; deallocate stack space
-    pop rdi                    ; restore rdi register
-    ret                        ; return
+section   .data
+message:  db        "Hello, World", 10      ; note the newline at the end
